@@ -36,7 +36,7 @@ Node * createNode(void *key);
 //balances tree accordingly
 Node * insert(Node *root, void *key);
 
-Tree *makeKeys(Tree *tree, char *para);
+Tree *makeKeys(Tree *tree, char *para, char *filename);
 
 Node * get(Node *root, char *key);
 

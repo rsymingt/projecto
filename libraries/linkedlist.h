@@ -5,20 +5,21 @@
 typedef struct record
 {
 	char *string;
+	char *filename;
 	struct record *next;
 }Record;
 
-Record * createRecord(char *string);
+Record * createRecord(char *string, char *filename);
 
-Record * addToBack(Record *record, char *string);
+Record * addToBack(Record *record, char *string, char *filename);
 
-Record * removeRecord(Record *record, char *string);
+Record * removeRecord(Record *record, char *string, char *filename);
 
 Record * destroyList(Record *record);
 
-int exists(Record *record, char *string);
+int exists(Record *record, char *string, char *filename);
 
-void printRecords(Record *record);
+void printRecords(Record *record, char *filename);
 
 #endif
 

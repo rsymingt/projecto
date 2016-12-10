@@ -159,7 +159,8 @@ Tree *runCommands(Tree *tree, char *command, char *currentDirectory)
 			Record *list = searchTerms(tree->root, search);
 			if(list)
 			{
-				printRecords(list);
+				char filename[255];
+				printRecords(list, filename);
 				free(list);
 			}
 			else

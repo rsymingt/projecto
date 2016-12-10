@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #include "avl.h"
 
@@ -54,7 +55,7 @@ Node * createNode(void *key)
 	return node;
 }
 
-Tree *makeKeys(Tree *tree, char *para)
+Tree *makeKeys(Tree *tree, char *para, char *filename)
 {
 	if(para)
 	{
@@ -78,7 +79,7 @@ Tree *makeKeys(Tree *tree, char *para)
 					Node *node = get(tree->root, key);
 					if(node)
 					{
-						node->list = addToBack(node->list, para);
+						node->list = addToBack(node->list, para, filename);
 					}
 				}
 				
@@ -148,11 +149,11 @@ Node * get(Node *root, char *key)
 	{
 		return root;
 	}
-	else if(strcmp(key, getKey(root)) < 0)
+	else if(strcasecmp(key, getKey(root)) < 0)
 	{
 		return get(root->left, key);
 	}
-	else if(strcmp(key, getKey(root)) > 0)
+	else if(strcasecmp(key, getKey(root)) > 0)
 	{
 		return get(root->right, key);
 	}
@@ -341,7 +342,7 @@ Record * searchTerms(Node *root, char *term)
 				
 				do{
 					
-					final = addToBack(final, list->string);
+					final = addToBack(final, list->string, list->filename);
 					
 				}while((list = list->next));
 				
@@ -358,9 +359,9 @@ Record * searchTerms(Node *root, char *term)
 							Record *finalCheck = final;
 							do{
 							
-								if(!exists(toCheck, finalCheck->string))
+								if(!exists(toCheck, finalCheck->string, finalCheck->filename))
 								{
-									final = removeRecord(final, finalCheck->string);
+									final = removeRecord(final, finalCheck->string, finalCheck->filename);
 								}
 								
 							}while((finalCheck = finalCheck->next));

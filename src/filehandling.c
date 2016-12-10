@@ -24,35 +24,24 @@ Tree * readFiles(Tree *tree, char *dirName)
 		{
 			if(*ep->d_name != '.')
 			{
-				printf("%s\n", ep->d_name);
+				//printf("%s\n", ep->d_name);
 				if(strstr(ep->d_name, "."))
 				{
-					char *dir = malloc(sizeof(char) * (strlen(dirName) + strlen(ep->d_name) + 1));
-					if(!dir)
-					{
-						perror("malloc error\n");
-						exit(1);
-					}
+					char dir[strlen(dirName) + strlen(ep->d_name) + 1];
 					strcpy(dir, dirName);
 					strcat(dir, "/");
 					strcat(dir, ep->d_name);
-					printf("dir:%s\n", dir);
+					//printf("file:%s\n", dir);
 					tree = readFile(tree, dir);
-					free(dir);
 				}
 				else
 				{
-					char *dir = malloc(sizeof(char) * (strlen(dirName) + strlen(ep->d_name) + 1));
-					if(!dir)
-					{
-						perror("malloc error");
-						exit(1);
-					}
+					char dir[strlen(dirName) + strlen(ep->d_name) + 1];
 					strcpy(dir, dirName);
 					strcat(dir, "/");
 					strcat(dir, ep->d_name);
+					//printf("dir:%s\n", dir);
 					tree = readFiles(tree, dir);
-					free(dir);
 				}
 			}
 		}
@@ -65,7 +54,6 @@ Tree * readFiles(Tree *tree, char *dirName)
 
 Tree * readFile(Tree *tree, char *filename)
 {
-	printf("filename:%s\n", filename);
 	FILE *f = fopen(filename, "rb");
 	if(f)
 	{
@@ -103,7 +91,7 @@ Tree * readFile(Tree *tree, char *filename)
 		        		//printf("START%sEND\n", para);
 		        		
 		        		//creates keys for given paragraph
-		        		tree = makeKeys(tree, para);
+		        		tree = makeKeys(tree, para, filename);
 		        		
 		        		file[i] = temp;
 		        		para = file + i;
@@ -113,7 +101,7 @@ Tree * readFile(Tree *tree, char *filename)
 		        		//printf("START%sEND\n", para);
 		        		
 		        		//creates keys for given last paragraph
-		        		tree = makeKeys(tree, para);
+		        		tree = makeKeys(tree, para, filename);
 		        	}
 		        	lineSize = 0;
 		        }
@@ -127,6 +115,7 @@ Tree * readFile(Tree *tree, char *filename)
 		
 		free(file);
 		fclose(f);
+
 	}
 	else
 	{
